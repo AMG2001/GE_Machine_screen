@@ -1,4 +1,8 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:ge_machine_app/dimensions.dart';
+import 'package:ge_machine_app/features/bluetooth_controller.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -19,10 +23,36 @@ class GEMachineApp extends StatelessWidget {
 }
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
-
+  MainPage({super.key});
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Home page'),
+      ),
+      body: GetBuilder<BluetoothController>(
+          init: BluetoothController(),
+          builder: (controller) {
+            return Container(
+              width: DeviceDimensions.width,
+              height: DeviceDimensions.height,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(controller.comingData == ""
+                        ? "nothig to show"
+                        : controller.comingData),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    OutlinedButton(
+                        onPressed: () {}, child: Text("Send hello to Tablet"))
+                  ],
+                ),
+              ),
+            );
+          }),
+    );
   }
 }

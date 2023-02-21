@@ -33,12 +33,16 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
+  bluetooth_connector: ^0.0.3
   flutter_blue_plus: ^1.4.0
+  flutter_bluetooth_serial: ^0.4.0
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  fluttertoast: ^8.2.1
   get: ^4.6.5
   lottie: ^2.2.0
+  syncfusion_flutter_barcodes: ^20.4.50
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
