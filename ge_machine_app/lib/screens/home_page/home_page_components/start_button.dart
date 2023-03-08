@@ -35,12 +35,10 @@ class StartButton extends StatelessWidget {
           ],
         ),
         onPressed: () {
-          Get.to(
-            ItemsPage(),
-            transition: Transition.fade,
-            curve: Curves.easeInOutCubic,
-            duration: Duration(milliseconds: 500)
-          );
+          Get.to(() => ItemsPage(),
+              transition: Transition.downToUp,
+              curve: Curves.easeInOutCubic,
+              duration: Duration(milliseconds: 500));
         },
       ),
     );
