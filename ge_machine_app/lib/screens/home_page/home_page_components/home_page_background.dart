@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ge_machine_app/dimensions.dart';
 
 class HomePageBackground extends StatelessWidget {
-  late var image;
+  late AssetImage image;
   HomePageBackground({required this.image});
   @override
   Widget build(BuildContext context) {

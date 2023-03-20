@@ -10,19 +10,13 @@ class ItemsPageBackground extends StatefulWidget {
 
 class _ItemsPageBackgroundState extends State<ItemsPageBackground> {
   @override
-  void initState() {
-    precacheImage(AssetImage('assets/items_page_background.png'), context);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Container(
       width: DeviceDimensions.width,
       height: DeviceDimensions.height,
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/items_page_background.png'),
+            image: AssetImage('assets/items_page_background.jpg'),
             fit: BoxFit.cover),
       ),
     );

@@ -1,60 +1,87 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:ge_machine_app/features/console_messages.dart';
 import 'package:ge_machine_app/features/custom_toast.dart';
 import 'package:get/get.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
-class BluetoothController extends GetxController {
+class BluetoothController {
+  late BluetoothDevice cameraDevice;
+
   String comingData = "";
 
-  String btModuleMacAddress = "00:21:09:00:4F:8C";
+  String macAddress_tablet = "0C:2F:B0:FE:ED:23";
+  String macAddress_camera = "F4:63:1F:D0:03:4E";
+  String macAddress_arduino = "00:21:09:00:4F:8C";
 
   late BluetoothConnection connection;
-  BluetoothController() {
-    initiateConnection();
+
+  Future<void> initiateConnection() async {
+    bool? isEnabled = await FlutterBluetoothSerial.instance.isEnabled;
+    if (isEnabled!) {
+      // get all bonded devices on tablet .
+      var bondedDevices =
+          await FlutterBluetoothSerial.instance.getBondedDevices();
+
+      for (int i = 0; i < bondedDevices.length; i++) {
+        if (bondedDevices[i].address == macAddress_camera) {
+          cameraDevice = bondedDevices[i];
+          break;
+        }
+      }
+
+     print('is camera connected : ${ cameraDevice.isConnected}');
+    } else {
+      await FlutterBluetoothSerial.instance.requestEnable();
+    }
+    await connectToCameraBluetoothModule();
   }
 
-  void initiateConnection() async {
-    connectToAurduinoBluetoothModule().then((value) async {
-      Timer(
-        Duration(seconds: 5),
-        () async {
-          print('\n\n start listening to aurd bluetooth after 5 seconds \n\n');
-          await startListeningToBluetoothStream();
-        },
-      );
-    });
-  }
-
-  Future<void> connectToAurduinoBluetoothModule() async {
+  Future<void> connectToCameraBluetoothModule() async {
     try {
       /**
        * to connect with bluetooth module .
        */
-      connection = await BluetoothConnection.toAddress(btModuleMacAddress);
-      if (connection.isConnected) {
-        print('tablet connected with Arduino successfully');
-      } else {
-        print('there is a problem while connecting with arduino');
-      }
+      connection = await BluetoothConnection.toAddress(macAddress_camera);
     } catch (e) {
-      print(e.toString());
+      ConsoleMessage.printError(
+          'error while connecting to camera', e.toString());
+    }
+    if (connection.isConnected) {
+      CustomToast.showBlackToast(
+          message: 'tablet connected with Camera successfully');
+      // await startListeningToBluetoothStream();
+      ConsoleMessage.printMessage('tablet connected with Camera successfully');
+    } else {
+      CustomToast.showRedToast(
+          message: 'there is a problem while connecting with Camera');
     }
   }
 
   Future<void> startListeningToBluetoothStream() async {
     try {
-      print('start listening to arduino');
+      CustomToast.showBlackToast(message: 'start listening to Camera');
+      ConsoleMessage.printMessage('start listening to Camera');
       connection.input!.listen((Uint8List data) {
-        print('Data incoming: ${ascii.decode(data)}');
+        CustomToast.showBlackToast(message: '${ascii.decode(data)}');
       });
     } catch (e) {
-      print(e.toString());
+      ConsoleMessage.printError(
+          'error while listening to camera', e.toString());
+      CustomToast.showRedToast(message: e.toString());
     }
   }
 
-  void sendDataToAurd(Uint8List data) async {
-    connection.output.add(data); // Sending data
+  void sendDataToTablet({required String message}) async {
+    var data = ascii.encode(message);
+    try {
+      connection.output.add(data); // Sending data
+      CustomToast.showBlackToast(message: 'data sent to Camera successfully ✔');
+      ConsoleMessage.printMessage('data sent to Camera successfully');
+    } catch (e) {
+      ConsoleMessage.printError(
+          'error while sending message to camera', e.toString());
+    }
   }
 }

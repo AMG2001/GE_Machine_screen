@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:ge_machine_app/dimensions.dart';
+import 'package:ge_machine_app/screens/qrcode_generation_page/qrcode_page.dart';
+import 'package:get/get.dart';
 
 class GenerateQrcodeButton extends StatelessWidget {
   const GenerateQrcodeButton({super.key});
@@ -41,12 +43,13 @@ class GenerateQrcodeButton extends StatelessWidget {
         activeThumbColor: Colors.green,
         activeTrackColor: Colors.white,
         onSwipe: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Swipped"),
-              backgroundColor: Colors.green,
-            ),
-          );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     content: Text("Swipped"),
+          //     backgroundColor: Colors.green,
+          //   ),
+          // );
+          Get.to(() => QrcodePage());
         },
       ),
     );
