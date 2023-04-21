@@ -9,12 +9,12 @@ class DetailsAboveQrcode extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: DeviceDimensions.height * .1,
+          height: DeviceDimensions.height * .06,
         ),
         Row(
           children: [
             Container(
-                height: DeviceDimensions.width * .065,
+                height: DeviceDimensions.width * .05,
                 child: Image.asset('assets/GE Logo.png')),
             const SizedBox(
               width: 12,
@@ -29,13 +29,13 @@ class DetailsAboveQrcode extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: DeviceDimensions.height * .06,
+          height: DeviceDimensions.height * .03,
         ),
         Text(
           "Scan & Earn",
           style: TextStyle(
               color: Colors.grey[700],
-              fontSize: 24,
+              fontSize: 18,
               fontWeight: FontWeight.w500),
         ),
         const SizedBox(
@@ -45,7 +45,7 @@ class DetailsAboveQrcode extends StatelessWidget {
           "With these simple steps , you can earn your points : ",
           style: TextStyle(
             color: Colors.grey[700],
-            fontSize: 16,
+            fontSize: 12,
           ),
         ),
         const SizedBox(

@@ -43,13 +43,12 @@ class GenerateQrcodeButton extends StatelessWidget {
         activeThumbColor: Colors.green,
         activeTrackColor: Colors.white,
         onSwipe: () {
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   SnackBar(
-          //     content: Text("Swipped"),
-          //     backgroundColor: Colors.green,
-          //   ),
-          // );
-          Get.to(() => QrcodePage());
+          Get.to(
+            () => QrcodePage(),
+            transition: Transition.fade,
+            curve: Curves.easeInOutCubic,
+            duration: Duration(milliseconds: 500),
+          );
         },
       ),
     );

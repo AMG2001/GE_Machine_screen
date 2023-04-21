@@ -17,7 +17,7 @@ class _ColumnUnderQrCodeState extends State<ColumnUnderQrCode> {
     super.initState();
   }
 
-  int counter = 30;
+  int counter = 60;
   void decreaseCounter() {
     if (counter > 0) {
       Timer(Duration(seconds: 1), () {

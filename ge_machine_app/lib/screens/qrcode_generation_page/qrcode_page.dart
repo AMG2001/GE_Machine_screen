@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:ge_machine_app/controllers/items_controller.dart';
 import 'package:ge_machine_app/dimensions.dart';
 import 'package:ge_machine_app/screens/qrcode_generation_page/qrcode_generation_page_components/column_under_qr_code.dart';
 import 'package:ge_machine_app/screens/qrcode_generation_page/qrcode_generation_page_components/details_above_qrcode.dart';
 import 'package:ge_machine_app/screens/qrcode_generation_page/qrcode_generation_page_components/page_background_image.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class QrcodePage extends StatelessWidget {
-  const QrcodePage({super.key});
+  QrcodePage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,47 +29,58 @@ class QrcodePage extends StatelessWidget {
                   const SizedBox(
                     height: 24,
                   ),
-                  Container(
-                    padding: EdgeInsets.all(32),
-                    width: DeviceDimensions.width * .25,
-                    height: DeviceDimensions.width * .25,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(32),
-                    ),
-                    child: FittedBox(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Scan this qr code : ",
-                            style: TextStyle(
-                                fontSize: 10, fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Container(
-                            width: 120,
-                            height: 120,
-                            child: SfBarcodeGenerator(
-                              value: 'www.syncfusion.com',
-                              symbology: QRCode(),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Text(
-                            "Plastic : 2 , Can : 1",
-                            style: TextStyle(
-                                fontSize: 10, fontWeight: FontWeight.w500),
-                          )
-                        ],
+                  GetBuilder<ItemsController>(builder: (itemsController) {
+                    return Container(
+                      padding: EdgeInsets.all(32),
+                      width: DeviceDimensions.width * .25,
+                      height: DeviceDimensions.width * .25,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(32),
                       ),
-                    ),
-                  ),
-                  SizedBox(
+                      child: FittedBox(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              "Scan this qr code : ",
+                              style: TextStyle(
+                                  fontSize: 10, fontWeight: FontWeight.w500),
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Container(
+                              width: 120,
+                              height: 120,
+                              child: SfBarcodeGenerator(
+                                /**
+                                 * machine id : GE-A1 
+                                 * number of plastics ,
+                                 * number of cans ,
+                                 * number of points ,
+                                 * date of process ,
+                                 * time of process with secons,
+                                 */
+                                value:
+                                    'GE-A1,${itemsController.plasticItems},${itemsController.cansItems},${itemsController.points},${DateFormat('yyyy-MM-dd').format(DateTime.now())},${DateFormat.Hms().format(DateTime.now())}',
+                                symbology: QRCode(),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Text(
+                              "Plastic : ${itemsController.plasticItems} , Can : ${itemsController.cansItems}, Points : ${itemsController.points}",
+                              style: TextStyle(
+                                  fontSize: 10, fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                  const SizedBox(
                     height: 24,
                   ),
 
